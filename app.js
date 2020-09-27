@@ -13,7 +13,7 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
-app.set('port', process.env.PORT || 3000);
+// app.set('port', process.env.PORT || 3000);
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -47,7 +47,3 @@ app.use(function(req, res, err) {
 })
 
 module.exports = app;
-
-http.createServer(app).listen(app.get('port'), function() {
-  console.log(app.get('port'));
-})
