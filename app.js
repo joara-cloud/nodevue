@@ -1,10 +1,22 @@
+
+// Connection 객체 생성 
+var mysql = require('mysql');
+var pool = mysql.createPool({
+  host: 'localhost',
+  port: 3306,
+  user: 'root',   
+  password: 'whdkfk1!',
+  database: 'test_schema'  
+});  
+
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var http = require('http');
-var mysql = require('mysql');
+
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -27,15 +39,6 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api/movies', moviesRouter);
 
-
-// Connection 객체 생성 
-var pool = mysql.createPool({
-  host: 'localhost',
-  port: 3306,
-  user: 'root',   
-  password: 'whdkfk1!',
-  database: 'test_schema'  
-});  
 
 
 // insert
@@ -85,8 +88,8 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-http.createServer(app).listen(app.get('port'), function(req,res) {
-  console.log('익스프레스 서버 시작 : ' + app.get('port'));
-})
+// http.createServer(app).listen(app.get('port'), function(req,res) {
+//   console.log('익스프레스 서버 시작 : ' + app.get('port'));
+// })
 
 module.exports = app;
