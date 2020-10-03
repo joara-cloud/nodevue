@@ -8,13 +8,13 @@ var mysql = require('mysql');
 //   password: 'whdkfk1!',
 //   database: 'test_schema'  
 // });  
-// var pool = mysql.createPool({
-//   host: 'us-cdbr-east-02.cleardb.com',
-//   user: 'bc7e03e97e8a9b',
-//   port: 3306,
-//   password: 'aef17477',
-//   database: 'heroku_5972366acc6e235'
-// })
+var pool = mysql.createPool({
+  host: 'us-cdbr-east-02.cleardb.com',
+  user: 'bc7e03e97e8a9b',
+  port: 3306,
+  password: 'aef17477',
+  database: 'heroku_5972366acc6e235'
+})
 
 
 var createError = require('http-errors');
@@ -26,7 +26,7 @@ var http = require('http');
 
 
 var indexRouter = require('./routes/index');
-// var usersRouter = require('./routes/users');
+var usersRouter = require('./routes/users');
 var moviesRouter = require('./routes/movies');
 
 var app = express();
@@ -49,32 +49,32 @@ app.use('/api/movies', moviesRouter);
 
 
 // insert
-// app.post('/regist', function (req, res) {
+app.post('/regist', function (req, res) {
 
-//   // Connect
-//   pool.getConnection(function(err, conn) {
-//     if(err) {
-//       console.log(err);
-//       return;
-//     }
-//     console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
+  // Connect
+  pool.getConnection(function(err, conn) {
+    if(err) {
+      console.log(err);
+      return;
+    }
+    console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
 
-//     var user = {
-//       userid: req.body.userid,
-//       name: req.body.name,
-//       address: req.body.address
-//     };
+    var user = {
+      userid: req.body.userid,
+      name: req.body.name,
+      address: req.body.address
+    };
 
-//     var exec = conn.query('insert into users set ?', user, function(err, rows) {
-//       if(err) { 
-//         console.log('query문 실행 중 오류!! : ' + exec.sql + ' : ' + err);
-//       }else {
-//         console.log('query문 성공 : ' + exec.sql);
-//         res.status(200).send('success');
-//       }
-//     });
-//   });
-// });
+    var exec = conn.query('insert into users set ?', user, function(err, rows) {
+      if(err) { 
+        console.log('query문 실행 중 오류!! : ' + exec.sql + ' : ' + err);
+      }else {
+        console.log('query문 성공 : ' + exec.sql);
+        res.status(200).send('success');
+      }
+    });
+  });
+});
 
 
 app.use(require('connect-history-api-fallback')())
