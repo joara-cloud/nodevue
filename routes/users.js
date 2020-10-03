@@ -4,12 +4,19 @@ const bcrypt = require('bcrypt');
 const router = express.Router();
 const app = express();
 
+// var pool = mysql.createPool({
+//   host: 'localhost',
+//   user: 'root',
+//   port: 3306,
+//   password: 'whdkfk1!',
+//   database: 'test_schema'
+// })
 var pool = mysql.createPool({
-  host: 'localhost',
-  user: 'root',
+  host: 'us-cdbr-east-02.cleardb.com',
+  user: 'bc7e03e97e8a9b',
   port: 3306,
-  password: 'whdkfk1!',
-  database: 'test_schema'
+  password: 'aef17477',
+  database: 'heroku_5972366acc6e235'
 })
 
 router.post('/signup', function(req, res, next) {
