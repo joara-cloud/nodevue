@@ -1,13 +1,20 @@
 
 // Connection 객체 생성 
 var mysql = require('mysql');
+// var pool = mysql.createPool({
+//   host: 'localhost',
+//   port: 3306,
+//   user: 'root',   
+//   password: 'whdkfk1!',
+//   database: 'test_schema'  
+// });  
 var pool = mysql.createPool({
-  host: 'localhost',
+  host: 'us-cdbr-east-02.cleardb.com',
+  user: 'bc7e03e97e8a9b',
   port: 3306,
-  user: 'root',   
-  password: 'whdkfk1!',
-  database: 'test_schema'  
-});  
+  password: 'aef17477',
+  database: 'heroku_5972366acc6e235'
+})
 
 
 var createError = require('http-errors');
