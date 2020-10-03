@@ -8,13 +8,13 @@ var mysql = require('mysql');
 //   password: 'whdkfk1!',
 //   database: 'test_schema'  
 // });  
-var pool = mysql.createPool({
-  host: 'us-cdbr-east-02.cleardb.com',
-  user: 'bc7e03e97e8a9b',
-  port: 3306,
-  password: 'aef17477',
-  database: 'heroku_5972366acc6e235'
-})
+// var pool = mysql.createPool({
+//   host: 'us-cdbr-east-02.cleardb.com',
+//   user: 'bc7e03e97e8a9b',
+//   port: 3306,
+//   password: 'aef17477',
+//   database: 'heroku_5972366acc6e235'
+// })
 
 
 var createError = require('http-errors');
