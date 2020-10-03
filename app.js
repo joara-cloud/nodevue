@@ -26,7 +26,7 @@ var http = require('http');
 
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+// var usersRouter = require('./routes/users');
 var moviesRouter = require('./routes/movies');
 
 var app = express();
