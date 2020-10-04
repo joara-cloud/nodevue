@@ -81,10 +81,11 @@ router.post('/login', function(req, res, err) {
     userid: req.body.user.id,
     password: req.body.user.password
   }
+  console.log('user 정보 : ' + user);
 
   pool.getConnection(function(err, conn) {
     if(err) {
-      console.log(err);
+      console.log('getconnection 실행 중 오류 ' + err);
       return;
     }
 
@@ -96,12 +97,18 @@ router.post('/login', function(req, res, err) {
       }
 
       if(row.length > 0) { // 일치하는 아이디가 있는 경우
-        bcrypt.compare(user.password, row[0].password, function(err, result) {
-          console.log('err : ' + err);
-          console.log('result : ' + result);
-        })
+        // bcrypt.compare(user.password, row[0].password, function(err, result) {
+        //   console.log('err : ' + err);
+        //   console.log('result : ' + result);
+        //   console.log(user.password);
+        //   console.log(row[0].password);
+        // });
+
+        let bool = bcrypt.compareSync(user.password, row[0].password);
+        console.log(bool);
 
       } else { // 일치하는 아이디가 없는 경우
+        console.log('일치하는 아이디가 없는 경우');
         res.json({
           success: false,
           msg: '아이디나 비밀번호를 다시 확인해주세요.'
