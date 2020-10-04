@@ -15,5 +15,17 @@
     "morgan": "~1.9.1",
     "mysql": "^2.18.1",
     "pug": "2.0.0-beta11"
-  }
+  },
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joara-cloud/nodevue.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joara-cloud/nodevue/issues"
+  },
+  "homepage": "https://github.com/joara-cloud/nodevue#readme",
+  "description": ""
 }

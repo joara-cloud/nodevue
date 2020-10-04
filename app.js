@@ -34,7 +34,7 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
-// app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 3000);
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -97,6 +97,6 @@ app.use(function(err, req, res, next) {
 
 // http.createServer(app).listen(app.get('port'), function(req,res) {
 //   console.log('익스프레스 서버 시작 : ' + app.get('port'));
-// })
+// });
 
 module.exports = app;

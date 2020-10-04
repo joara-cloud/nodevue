@@ -73,5 +73,75 @@ router.post('/signup', function(req, res, next) {
   });
 });
 
+router.post('/login', function(req, res, err) {
+  console.log('/login 으로 요청들어옴');
+
+  
+  let user = {
+    userid: req.body.user.id,
+    password: req.body.user.password
+  }
+
+  pool.getConnection(function(err, conn) {
+    if(err) {
+      console.log(err);
+      return;
+    }
+
+    let exec = conn.query('select userid, password from users where userid="' + user.userid + '"', function(err, row) {
+      if(err) {
+        console.log('로그인 중 query문에서 에러 : '+err);
+        console.log(exec.sql);
+        return;
+      }
+
+      if(row.length > 0) { // 일치하는 아이디가 있는 경우
+        bcrypt.compare(user.password, row[0].password, function(err, result) {
+          console.log('err : ' + err);
+          console.log('result : ' + result);
+        })
+
+      } else { // 일치하는 아이디가 없는 경우
+        res.json({
+          success: false,
+          msg: '아이디나 비밀번호를 다시 확인해주세요.'
+        })        
+
+      }
+      
+    });
+  });
+
+
+  // router.post('/login', function (req, res) {
+  //   connection.query('SELECT userid, password FROM users WHERE userid = "' + user.userid + '"', function (err, row) {
+  //     if (err) {
+  //       res.json({ // 매칭되는 아이디 없을 경우
+  //         success: false,
+  //         message: 'Login failed please check your id or password!'
+  //       })
+  //     }
+  //     if (row[0] !== undefined && row[0].userid === user.userid) {
+  //       bcrypt.compare(user.password, row[0].password, function (err, res2) {
+  //         if (res2) {
+  //           res.json({ // 로그인 성공 
+  //             success: true,
+  //             message: 'Login successful!'
+  //           })
+  //         }
+  //         else {
+  //           res.json({ // 매칭되는 아이디는 있으나, 비밀번호가 틀린 경우            
+  //              success: false,
+  //              message: 'Login failed please check your id or password!'
+  //           })
+  //         }
+  //       })
+  //     }
+  //   })
+  // });
+
+
+})
+
 
 module.exports = router;
