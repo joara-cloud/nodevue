@@ -48,15 +48,17 @@ router.post('/signup', function(req, res, next) {
             });
           }else { // DB에 동일한 아이디를 가진 데이터가 없다면 user를 DB에 넣고
 
-            // const salt = bcrypt.genSaltSync();
-            // const encryptedPassword = bcrypt.hashSync(user.password, salt); // user 데이터를 DB에 넣을 때, bcrypt라는 패키지를 사용하여 비밀번호를 암호화합니다. (bcrypt 모듈 설치하고 import해아함!)
+            const salt = bcrypt.genSaltSync();
+            const encryptedPassword = bcrypt.hashSync(user.password, salt); // user 데이터를 DB에 넣을 때, bcrypt라는 패키지를 사용하여 비밀번호를 암호화합니다. (bcrypt 모듈 설치하고 import해아함!)
+                user.password = encryptedPassword;
 
-            bcrypt.genSalt(saltRounds, function(err, salt) {
-              bcrypt.hash(myPlaintextPassword, salt, function(err, hash) {
-                // Store hash in your password DB.
-                user.password = hash;
-              });
-            });
+            // const saltRounds = 10;
+            // bcrypt.genSalt(saltRounds, function(err, salt) {
+            //   bcrypt.hash(myPlaintextPassword, salt, function(err, hash) {
+            //     // Store hash in your password DB.
+            //     // user.password = hash;
+            //   });
+            // });
 
 
             let intoExec = conn.query('INSERT INTO users set ?', user, function(err, row) {
@@ -105,10 +107,17 @@ router.post('/login', function(req, res, err) {
       if(row.length > 0) { // 일치하는 아이디가 있는 경우
         console.log('일치하는 아이디가 있는 경우');
         bcrypt.compare(user.password, row[0].password, function(err, result) {
-          console.log('err : ' + err);
-          console.log('result : ' + result);
-          console.log(user.password);
-          console.log(row[0].password);
+          if(result) {
+            res.json({
+              success: true,
+              msg: '환영합니다.'
+            })
+          }else {
+            res.json({
+              success: false,
+              msg: '아이디 혹은 비밀번호를 다시 확인해주세요.'
+            })
+          }
         });
 
         let bool = bcrypt.compareSync(user.password, row[0].password);
