@@ -156,5 +156,14 @@ router.post('/login', function(req, res, err) {
 
 })
 
+router.post('/users', function(req, res, err) {
+  console.log('user로 요청들어옴');
+  if(err) {
+    console.log(err);
+    return;
+  }
+
+  res.status(200).send('success');
+});
 
 module.exports = router;
