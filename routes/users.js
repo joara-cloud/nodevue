@@ -83,7 +83,6 @@ router.post('/signup', function(req, res, next) {
 
 router.post('/login', function(req, res, next) {
   console.log('/login 으로 요청들어옴');
-
   
   let user = {
     userid: req.body.user.id,
@@ -111,7 +110,7 @@ router.post('/login', function(req, res, next) {
             res.json({
               success: true,
               msg: '환영합니다.'
-            })
+            });
           }else {
             res.json({
               success: false,
@@ -119,9 +118,6 @@ router.post('/login', function(req, res, next) {
             })
           }
         });
-
-        let bool = bcrypt.compareSync(user.password, row[0].password);
-        console.log(bool);
 
       } else { // 일치하는 아이디가 없는 경우
         console.log('일치하는 아이디가 없는 경우');
