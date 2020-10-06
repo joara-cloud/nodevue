@@ -81,7 +81,7 @@ router.post('/signup', function(req, res, next) {
   });
 });
 
-router.post('/login', function(req, res, err) {
+router.post('/login', function(req, res, next) {
   console.log('/login 으로 요청들어옴');
 
   
@@ -165,14 +165,21 @@ router.post('/login', function(req, res, err) {
 
 })
 
-// router.post('/users', function(req, res, err) {
-//   console.log('user로 요청들어옴');
-//   if(err) {
-//     console.log(err);
-//     return;
-//   }
+router.post('/userlist', function(req, res, next) {
+  console.log('userlist 요청들어옴');
 
-//   res.status(200).send('success');
-// });
+  pool.getConnection(function(err, conn) {
+    let exec = conn.query('select * from users', function(err, row) {
+      if(err) {
+        console.log('userlist의 연결객체 생성 중 에러 : ' + err);
+        return;
+      }
+
+      console.log('userlist의 연결객체 생성 성공!!');
+      res.status(200).send(row);
+    })
+  });
+
+});
 
 module.exports = router;
