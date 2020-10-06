@@ -42,40 +42,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// 라우터 정보 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api/movies', moviesRouter);
-
-
-
-// insert
-app.post('/regist', function (req, res) {
-
-  // Connect
-  pool.getConnection(function(err, conn) {
-    if(err) {
-      console.log(err);
-      return;
-    }
-    console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId);
-
-    var user = {
-      userid: req.body.userid,
-      name: req.body.name,
-      address: req.body.address
-    };
-
-    var exec = conn.query('insert into users set ?', user, function(err, rows) {
-      if(err) { 
-        console.log('query문 실행 중 오류!! : ' + exec.sql + ' : ' + err);
-      }else {
-        console.log('query문 성공 : ' + exec.sql);
-        res.status(200).send('success');
-      }
-    });
-  });
-});
-
 
 app.use(require('connect-history-api-fallback')())
 
