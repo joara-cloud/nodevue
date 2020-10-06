@@ -50,8 +50,16 @@ router.post('/signup', function(req, res, next) {
 
             const salt = bcrypt.genSaltSync();
             const encryptedPassword = bcrypt.hashSync(user.password, salt); // user 데이터를 DB에 넣을 때, bcrypt라는 패키지를 사용하여 비밀번호를 암호화합니다. (bcrypt 모듈 설치하고 import해아함!)
+                user.password = encryptedPassword;
 
-            user.password = encryptedPassword;
+            // const saltRounds = 10;
+            // bcrypt.genSalt(saltRounds, function(err, salt) {
+            //   bcrypt.hash(myPlaintextPassword, salt, function(err, hash) {
+            //     // Store hash in your password DB.
+            //     // user.password = hash;
+            //   });
+            // });
+
 
             let intoExec = conn.query('INSERT INTO users set ?', user, function(err, row) {
               if(err) {
@@ -73,9 +81,8 @@ router.post('/signup', function(req, res, next) {
   });
 });
 
-router.post('/login', function(req, res, err) {
+router.post('/login', function(req, res, next) {
   console.log('/login 으로 요청들어옴');
-
   
   let user = {
     userid: req.body.user.id,
@@ -97,23 +104,27 @@ router.post('/login', function(req, res, err) {
       }
 
       if(row.length > 0) { // 일치하는 아이디가 있는 경우
-        // bcrypt.compare(user.password, row[0].password, function(err, result) {
-        //   console.log('err : ' + err);
-        //   console.log('result : ' + result);
-        //   console.log(user.password);
-        //   console.log(row[0].password);
-        // });
-
-        let bool = bcrypt.compareSync(user.password, row[0].password);
-        console.log(bool);
+        console.log('일치하는 아이디가 있는 경우');
+        bcrypt.compare(user.password, row[0].password, function(err, result) {
+          if(result) {
+            res.json({
+              success: true,
+              msg: '환영합니다.'
+            });
+          }else {
+            res.json({
+              success: false,
+              msg: '아이디 혹은 비밀번호를 다시 확인해주세요.'
+            })
+          }
+        });
 
       } else { // 일치하는 아이디가 없는 경우
         console.log('일치하는 아이디가 없는 경우');
         res.json({
           success: false,
           msg: '아이디나 비밀번호를 다시 확인해주세요.'
-        })        
-
+        });
       }
       
     });
@@ -150,5 +161,21 @@ router.post('/login', function(req, res, err) {
 
 })
 
+router.post('/userlist', function(req, res, next) {
+  console.log('userlist 요청들어옴');
+
+  pool.getConnection(function(err, conn) {
+    let exec = conn.query('select * from users', function(err, row) {
+      if(err) {
+        console.log('userlist의 연결객체 생성 중 에러 : ' + err);
+        return;
+      }
+
+      console.log('userlist의 연결객체 생성 성공!!');
+      res.status(200).send(row);
+    })
+  });
+
+});
 
 module.exports = router;
