@@ -64,7 +64,11 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+<<<<<<< HEAD
 
+=======
+ 
+>>>>>>> ac80263063c45f0d72d7a609b304c9aa10aeaa1c
 http.createServer(app).listen(app.get('port'), function(req,res) {
   console.log('익스프레스 서버 시작 : ' + app.get('port'));
 });

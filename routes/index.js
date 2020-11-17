@@ -3,7 +3,8 @@ var path = require('path');
 var router = express.Router();
 
 /* GET home page. */
-// console.log('abcdefghijklmnopqrstuvwxyz');
+console.log('abcdefghijklmnopqrstuvwxyz');
+
 router.get('/', function(req, res, next) {
   console.log('asdfasdf');
 
